@@ -1,4 +1,5 @@
 const PostModel = require("../models/post")
+const logger = require("../config/logger")
 
 const options = (req, res) => {
     res.header("Allow", "GET, PATCH, PUT, POST, DELETE, OPTIONS")
@@ -13,6 +14,7 @@ const list = (req, res) => {
 
     PostModel.find({}, (err, posts) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
         res.status(200).json(posts.slice(0, limit))
@@ -23,9 +25,11 @@ const list = (req, res) => {
 const detail = (req, res) => {
     PostModel.findOne({ id: req.params.id }, (err, post) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
         if (!post) {
+            logger.warn("No Post")
             return res.status(404).send("No Post")
         }
         res.status(200).json(post)
@@ -47,7 +51,7 @@ const create = async (req, res) => {
 
     await postData.save((err, post) => {
         if (err) {
-            console.log(err)
+            logger.error(err)
             return res.sendStatus(400)
         }
         res.status(201).json(post)
@@ -56,6 +60,7 @@ const create = async (req, res) => {
 
 // 등록 오류 (localhost:3000/api/posts/:id)
 const createError = (req, res) => {
+    logger.warn("Incorrect Domain")
     res.sendStatus(405)
 }
 
@@ -63,7 +68,10 @@ const createError = (req, res) => {
 const update = (req, res) => {
     const { content, author, time, color, likes, public } = req.body
 
-    if (!content && !author) res.sendStatus(400)
+    if (!content && !author) {
+        logger.warn("Incorrect Input")
+        res.sendStatus(400)
+    }
 
     const postData = new PostModel({
         content,
@@ -76,12 +84,17 @@ const update = (req, res) => {
 
     PostModel.findOneAndDelete({ id: req.params.id }, (err, post) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
-        if (!post) return res.sendStatus(400)
+        if (!post) {
+            logger.warn("No Post")
+            return res.sendStatus(400)
+        }
 
         postData.save((err, post) => {
             if (err) {
+                logger.error(err)
                 return res.sendStatus(400)
             }
             res.status(201).json(post)
@@ -97,14 +110,22 @@ const patch = (req, res) => {
         { runValidators: true },
         (err, raw) => {
             if (err) {
+                logger.error(err)
                 return res.sendStatus(400)
             }
-            if (!raw) return res.status(404).send("No Post")
+            if (!raw) {
+                logger.warn("No Post")
+                return res.status(404).send("No Post")
+            }
             PostModel.findById(req.params.id, (err, post) => {
                 if (err) {
+                    logger.error(err)
                     return res.status(400)
                 }
-                if (!post) return res.status(404).send("No Post")
+                if (!post) {
+                    logger.warn("No Post")
+                    return res.status(404).send("No Post")
+                }
                 res.status(200).json(post)
             })
         }
@@ -115,6 +136,7 @@ const patch = (req, res) => {
 const erase = (req, res) => {
     PostModel.remove((err, info) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
         res.status(200).json(info)
@@ -125,9 +147,13 @@ const erase = (req, res) => {
 const remove = (req, res) => {
     PostModel.findOneAndRemove({ id: req.params.id }, (err, post) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
-        if (!post) return res.status(404).send("No Post")
+        if (!post) {
+            logger.warn("No Post")
+            return res.status(404).send("No Post")
+        }
         res.status(200).json(post)
     })
 }
