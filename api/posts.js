@@ -4,6 +4,7 @@ const router = express.Router()
 
 const controller = require("../controller/posts")
 
+// REST API
 router.options("/", controller.options)
 router.get("/", controller.list) // 목록조회
 router.get("/:id", controller.detail) // 상세조회
