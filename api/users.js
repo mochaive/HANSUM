@@ -4,6 +4,7 @@ const router = express.Router()
 
 const controller = require("../controller/users")
 
+// REST API
 router.options("/", controller.options)
 router.get("/", controller.list) // 목록조회
 router.get("/:uid", controller.detail) // 상세조회
