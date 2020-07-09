@@ -8,5 +8,17 @@
     },
     "keywords": [],
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "http-errors": "^1.8.0",
+        "mongoose": "^5.9.22",
+        "morgan": "^1.10.0",
+        "winston": "^3.3.3",
+        "winston-daily-rotate-file": "^4.5.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
 }
