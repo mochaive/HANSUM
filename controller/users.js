@@ -1,4 +1,5 @@
 const UserModel = require("../models/user")
+const logger = require("../config/logger")
 
 // OPTIONS
 const options = (req, res) => {
@@ -14,6 +15,7 @@ const list = (req, res) => {
 
     UserModel.find({}, (err, users) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
         res.status(200).json(users.slice(0, limit))
@@ -24,9 +26,11 @@ const list = (req, res) => {
 const detail = (req, res) => {
     UserModel.findOne({ uid: req.params.uid }, (err, user) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
         if (!user) {
+            logger.warn("No User")
             return res.status(404).send("No User")
         }
         res.status(200).json(user)
@@ -47,6 +51,7 @@ const create = async (req, res) => {
 
     await userData.save((err, user) => {
         if (err) {
+            logger.error(err)
             return res.sendStatus(400)
         }
         res.status(201).json(user)
@@ -55,6 +60,7 @@ const create = async (req, res) => {
 
 // 등록 오류 (localhost:3000/api/users/:uid)
 const createError = (req, res) => {
+    logger.warn("Incorrect Domain")
     res.sendStatus(405)
 }
 
@@ -62,7 +68,10 @@ const createError = (req, res) => {
 const update = (req, res) => {
     const { uid, userName, imageUrl, likes, best } = req.body
 
-    if (!uid && !userName) res.sendStatus(400)
+    if (!uid && !userName) {
+        logger.warn("Incorrect Input")
+        res.sendStatus(400)
+    }
 
     const userData = new UserModel({
         uid,
@@ -74,12 +83,17 @@ const update = (req, res) => {
 
     UserModel.findOneAndRemove({ uid: req.params.uid }, (err, user) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
-        if (!user) return res.sendStatus(400)
+        if (!user) {
+            logger.warn("No User")
+            return res.sendStatus(400)
+        }
 
         userData.save((err, user) => {
             if (err) {
+                logger.error(err)
                 return res.sendStatus(400)
             }
             res.status(201).json(user)
@@ -95,14 +109,22 @@ const patch = (req, res) => {
         { runValidators: true },
         (err, raw) => {
             if (err) {
+                logger.error(err)
                 return res.sendStatus(400)
             }
-            if (!raw) return res.status(404).send("No User")
+            if (!raw) {
+                logger.warn("No User")
+                return res.status(404).send("No User")
+            }
             UserModel.findOne({ uid: req.params.uid }, (err, user) => {
                 if (err) {
+                    logger.error(err)
                     return res.status(400)
                 }
-                if (!user) return res.status(404).send("No User")
+                if (!user) {
+                    logger.warn("NO User")
+                    return res.status(404).send("No User")
+                }
                 res.status(200).json(user)
             })
         }
@@ -113,6 +135,7 @@ const patch = (req, res) => {
 const erase = (req, res) => {
     UserModel.remove((err, info) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
         res.status(200).json(info)
@@ -123,9 +146,13 @@ const erase = (req, res) => {
 const remove = (req, res) => {
     UserModel.findOneAndRemove({ uid: req.params.uid }, (err, user) => {
         if (err) {
+            logger.error(err)
             return res.status(500).send("Error")
         }
-        if (!user) return res.status(404).send("No User")
+        if (!user) {
+            logger.warn("No User")
+            return res.status(404).send("No User")
+        }
         res.status(200).json(user)
     })
 }
