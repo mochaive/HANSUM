@@ -49,7 +49,7 @@ app.set("view engine", "ejs")
 app.use("/routes", router)
 
 app.get("/", auth.authenticateUser, (req, res, next) => {
-    res.render("index", { userName: req.user.displayName })
+    res.render("index", { uid: req.user.id })
 })
 
 app.listen(process.env.PORT || 3000, () => console.log("Server running"))
