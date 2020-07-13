@@ -1,10 +1,12 @@
 const passport = require("passport")
 const GoogleStrategy = require("passport-google-oauth20")
+const logger = require("../config/logger")
 require("dotenv").config()
 
 const googleCredentials = require("../config/google.json")
 
 const UserModel = require("../models/user")
+const user = require("../models/user")
 
 // passport setup
 passport.use(
@@ -27,8 +29,23 @@ passport.deserializeUser((user, done) => {
     done(null, user)
 })
 
-const authenticateUser = (req, res, next) => {
-    if (req.isAuthenticated()) {
+const authenticateUser = async (req, res, next) => {
+    let chk = false
+
+    if (req.user) {
+        await UserModel.findOne({ uid: req.user.id }, (err, user) => {
+            if (err) {
+                logger.error(err)
+            }
+            if (!user) {
+                chk = true
+            }
+        })
+    }
+
+    if (chk) {
+        res.status(200).redirect("/routes/auth/register")
+    } else if (req.isAuthenticated()) {
         next()
     } else {
         res.status(301).redirect("/routes/auth")
@@ -54,10 +71,15 @@ const logout = (req, res) => {
     res.redirect("/")
 }
 
+const register = (req, res) => {
+    res.render("register", { uid: req.user.id })
+}
+
 module.exports = {
     login,
     loginGoogle,
     loginGoogleCallback,
     logout,
     authenticateUser,
+    register,
 }
