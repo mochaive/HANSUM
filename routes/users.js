@@ -3,6 +3,10 @@ const express = require("express")
 const router = express.Router()
 
 const controller = require("../controller/users")
+const auth = require("../controller/auth")
+
+// API
+router.get("/edit", auth.authenticateUser, controller.editUser)
 
 // REST API
 router.options("/", controller.options)
