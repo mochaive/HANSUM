@@ -1,6 +1,5 @@
 const PostModel = require("../models/post")
 const logger = require("../config/logger")
-const { O_DSYNC } = require("constants")
 
 const options = (req, res) => {
     res.header("Allow", "GET, PATCH, PUT, POST, DELETE, OPTIONS")
