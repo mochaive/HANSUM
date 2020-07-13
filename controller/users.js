@@ -157,6 +157,10 @@ const remove = (req, res) => {
     })
 }
 
+const editUser = (req, res) => {
+    res.render("user/edit", { uid: req.user.id })
+}
+
 module.exports = {
     options,
     list,
@@ -167,4 +171,5 @@ module.exports = {
     patch,
     erase,
     remove,
+    editUser,
 }

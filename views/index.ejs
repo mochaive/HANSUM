@@ -4,7 +4,16 @@
 
     <body>
         <%- include('./menu'); %>
+        <a class="text" id="userName">hello</a>
+        <script>
+            $(function () {
+                $.ajax({
+                    url: "/routes/users/<%= uid %>",
+                    type: "GET",
+                }).done((response) => {
+                    $("#userName").text(response.userName)
+                })
+            })
+        </script>
     </body>
-
-    <h4 class="text"><a><%= userName %></a></h4>
 </html>
