@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Material Design Bootstrap</title>
+        <!-- Font Awesome -->
+        <!-- Font Awesome -->
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        />
+        <!-- Google Fonts -->
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        />
+        <!-- Bootstrap core CSS -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <!-- Material Design Bootstrap -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css"
+        />
+    </head>
+    <body>
+        <!-- JQuery -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        ></script>
+        <!-- Bootstrap tooltips -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"
+        ></script>
+        <!-- Bootstrap core JavaScript -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"
+        ></script>
+        <!-- MDB core JavaScript -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"
+        ></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+        <link
+            type="text/css"
+            rel="stylesheet"
+            href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/earlyaccess/notosanskr.css"
+        />
+
+        <div class="container">
+            <div class="d-flex justify-content-around">
+                <h1
+                    style="
+                        margin-top: 300px;
+                        font-family: 'NanumSquare', sans-serif;
+                        color: #d58b71;
+                    "
+                    class="animated fadeIn"
+                >
+                    HANSUM
+                </h1>
+            </div>
+            <div class="d-flex justify-content-around">
+                <button
+                    class="firebaseui-idp-button mdl-button mdl-js-button mdl-button--raised firebaseui-idp-google firebaseui-id-idp-button animated fadeInUp"
+                    data-provider-id="google.com"
+                    style="
+                        background-color: #ffffff;
+                        margin-top: 150px;
+                        border-radius: 30px;
+                    "
+                    onclick="location.href = '/routes/auth/google'"
+                    data-upgraded=",MaterialButton"
+                >
+                    <span class="firebaseui-idp-icon-wrapper"
+                        ><img
+                            class="firebaseui-idp-icon"
+                            alt=""
+                            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" /></span
+                    ><span
+                        class="firebaseui-idp-text firebaseui-idp-text-long"
+                        style="
+                            padding-left: 45px;
+                            padding-top: 2px;
+                            color: black;
+                            font-family: 'Noto Sans CJK KR', sans-serif;
+                        "
+                        >구글로 시작하기</span
+                    ><span class="firebaseui-idp-text firebaseui-idp-text-short"
+                        >Google</span
+                    >
+                </button>
+            </div>
+        </div>
+    </body>
+</html>
