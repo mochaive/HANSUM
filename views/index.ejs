@@ -199,8 +199,45 @@
             </div>
         </div>
         <%- include('./bottomnav'); %>
+        <script src="/socket.io/socket.io.js"></script>
         <script>
             $(function () {
+
+                const socket = io()
+
+                socket.on("post", (data) => {
+                    console.log(data)
+                    $.ajax({
+                            url:`/routes/users/${data.from.uid}`,
+                            type:"GET",
+                            async: false
+                        }).done((userResponse) => {
+                            console.log(userResponse)
+                            const obj = $('<div>').attr('id', data.msg._id).addClass('list-item').append(
+                                $('<div>').addClass('list-item-left').append(
+                                    $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
+                                ).append(
+                                    $('<div>').addClass('list-item-like').append('<i class="fa'+(data.msg.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>').click(function(){
+                                        $.ajax({
+                                            url:`routes/posts/likes/${$(this).parent().parent().attr('id')}`,
+                                            type:"POST",
+                                            data: {"uid": "<%=uid%>"},
+                                            async: false,
+                                        }).done((postResponse) => {
+                                            console.log("onClick")
+                                            $(this).html('<i class="fa'+(postResponse.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>')
+                                            
+                                        }).fail((request, status, error) => {
+                                            console.log("fail")
+                                        }
+                                        )
+                                    })
+                                )
+                            ).append($('<div>').addClass('list-item-content').text(data.msg.content));
+                            $('.post-list').prepend(obj);
+                        })
+                })
+
                 $.ajax({
                     url:"/routes/posts",
                     type:"GET"
@@ -215,27 +252,27 @@
                         }).done((userResponse) => {
                             console.log(userResponse)
                             const obj = $('<div>').attr('id', item._id).addClass('list-item').append(
-                            $('<div>').addClass('list-item-left').append(
-                                $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
-                            ).append(
-                                $('<div>').addClass('list-item-like').append('<i class="fa'+(item.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>').click(function(){
-                                    $.ajax({
-                                        url:`routes/posts/likes/${$(this).parent().parent().attr('id')}`,
-                                        type:"POST",
-                                        data: {"uid": "<%=uid%>"},
-                                        async: false,
-                                    }).done((postResponse) => {
-                                        console.log("onClick")
-                                        $(this).html('<i class="fa'+(postResponse.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>')
-                                        
-                                    }).fail((request, status, error) => {
-                                        console.log("fail")
-                                    }
-                                    )
-                                })
-                            )
-                        ).append($('<div>').addClass('list-item-content').text(item.content));
-                        $('.post-list').append(obj);
+                                $('<div>').addClass('list-item-left').append(
+                                    $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
+                                ).append(
+                                    $('<div>').addClass('list-item-like').append('<i class="fa'+(item.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>').click(function(){
+                                        $.ajax({
+                                            url:`routes/posts/likes/${$(this).parent().parent().attr('id')}`,
+                                            type:"POST",
+                                            data: {"uid": "<%=uid%>"},
+                                            async: false,
+                                        }).done((postResponse) => {
+                                            console.log("onClick")
+                                            $(this).html('<i class="fa'+(postResponse.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>')
+                                            
+                                        }).fail((request, status, error) => {
+                                            console.log("fail")
+                                        }
+                                        )
+                                    })
+                                )
+                            ).append($('<div>').addClass('list-item-content').text(item.content));
+                            $('.post-list').append(obj);
                         })  
                     }
                 })

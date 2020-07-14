@@ -38,6 +38,15 @@
         targetTab.addClass("visible")
         $(".tab-title").text(targetTab.attr("title"))
         location.hash = "#" + target
+        switch (target) {
+            case "home":
+                $("#writeBtn").css("visibility", "visible")
+                break
+            case "ranking":
+            case "setting":
+                $("#writeBtn").css("visibility", "hidden")
+                break
+        }
     })
     $(() => {
         if (
