@@ -12,14 +12,29 @@ const list = (req, res) => {
 
     if (isNaN(limit)) return res.status(400).end()
 
-    PostModel.find({}, null, { limit }, (err, posts) => {
-        if (err) {
-            logger.error(err)
-            return res.status(500).send("Error")
+    let today = new Date()
+
+    let hours = today.getHours() // 시
+
+    console.log(hours)
+
+    PostModel.find(
+        {
+            "time.startTime": { $lte: hours },
+            "time.finishTime": { $gt: hours },
+        },
+        null,
+        { limit },
+        (err, posts) => {
+            if (err) {
+                logger.error(err)
+                return res.status(500).send("Error")
+            }
+            res.status(200).json(posts)
         }
-        res.status(200).json(posts)
-    })
+    )
 }
+
 const ranking = (req, res) => {
     let limit = Number(req.query.limit) || 10
 
