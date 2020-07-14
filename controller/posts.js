@@ -16,23 +16,23 @@ const list = (req, res) => {
 
     let hours = today.getHours() // 시
 
-    console.log(hours)
-
     PostModel.find(
         {
             "time.startTime": { $lte: hours },
             "time.finishTime": { $gt: hours },
+            public: true,
         },
         null,
-        { limit },
-        (err, posts) => {
+        { limit }
+    )
+        .sort("-createdAt")
+        .exec((err, posts) => {
             if (err) {
                 logger.error(err)
                 return res.status(500).send("Error")
             }
             res.status(200).json(posts)
-        }
-    )
+        })
 }
 
 const ranking = (req, res) => {
@@ -290,6 +290,10 @@ const isLike = (req, res) => {
     })
 }
 
+const writePost = (req, res) => {
+    res.render("post/write", { uid: req.user.id })
+}
+
 module.exports = {
     options,
     list,
@@ -304,4 +308,5 @@ module.exports = {
     updateLike,
     isLike,
     ranking,
+    writePost,
 }
