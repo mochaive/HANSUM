@@ -101,10 +101,11 @@
         ></script>
 
         <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="fas fa-chevron-left fa-lg mr-auto" href="/"></a>
+            <a class="fas fa-chevron-left fa-lg mr-auto" href="/#setting"></a>
             <h6>프로필 수정</h6>
             <a class="complete my-2 my-lg-0 ml-auto" href="#">완료</a>
         </nav>
+        
         <div class="container">
             <h1 class="animated slideInLeft">
             </h1>
@@ -142,7 +143,7 @@
                         data: {userName, imageUrl},
                     }).done(()=> {
                         alert("변경했습니다")
-                        location.href="/"
+                        location.href="/#setting"
                     }).fail((request, status, error) => {
                         alert("다시 시도해주세요")
                     })
