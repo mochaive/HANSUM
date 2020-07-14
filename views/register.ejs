@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./header'); %>
+        <style>
+            .navbar {
+                padding: 11px 20px 11px 20px;
+                height: 60px;
+                background-color: white;
+                box-shadow: none;
+            }
+            a {
+                color: black;
+            }
+            .complete {
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 13.5px;
+                margin: 0;
+                color: #d58b71;
+            }
+            a:hover {
+                color: #752771;
+            }
+            .container {
+                padding: 0px 20px 0px 20px;
+            }
+            h1 {
+                margin-top: 30px;
+                font-size: 26px;
+                font-family: "Noto Sans KR", sans-serif;
+                font-weight: 500;
+                line-height: 40px;
+            }
+            span {
+                font-weight: 600;
+                color: #d58b71;
+            }
+            img {
+                border-radius: 70%;
+                display: block;
+                margin: auto;
+                margin-top: 57px;
+                margin-bottom: 65px;
+                box-shadow: 0px 0px 10px #d58b71;
+            }
+            .md-form {
+                margin: 0px 10px 0px 10px;
+                color: #d58b71;
+                border-bottom-color: #d58b71;
+            }
+            .md-form > label {
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 13.5px;
+                font-weight: 300;
+                color: #777777;
+            }
+            .md-form input[type="text"] {
+                border-bottom-color: #d58b71;
+            }
+            .md-form input[type="text"]:focus {
+                box-shadow: 0 1px 0 0 #d58b71 !important;
+                color: black;
+                border-bottom: 1px solid #d58b71 !important;
+            }
+            .md-form
+                input[type="text"]:not(.browser-default):focus:not([readonly])
+                + label {
+                color: #752771;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- JQuery -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        ></script>
+        <!-- Bootstrap tooltips -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"
+        ></script>
+        <!-- Bootstrap core JavaScript -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"
+        ></script>
+        <!-- MDB core JavaScript -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"
+        ></script>
+
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="fas fa-chevron-left fa-lg" href="/routes/auth"></a>
+            <a class="complete my-2 my-lg-0 ml-auto" >완료</a>
+        </nav>
+        <div class="container">
+            <h1 class="animated slideInLeft">
+                서비스를 위한 <span>정보</span>를 <br />입력해주세요.
+            </h1>
+            <img
+                id="imageUrl"
+                src="https://p7.hiclipart.com/preview/355/848/997/computer-icons-user-profile-google-account-photos-icon-account.jpg"
+                class="animated zoomIn"
+                width="125px"
+                height="125px"
+            />
+            <form id="registerForm">
+                <div class="md-form input-with-post-icon animated fadeInUp">
+                    <input type="text" id="userName" class="form-control" />
+                    <label for="userName">이름을 입력하세요.</label>
+                </div>
+            </form>
+        </div>
+        <script>
+            $(function () {
+                $(".complete").click((event) => {
+                    event.preventDefault()
+                    const userName = $("#userName").val()
+                    const uid = "<%= uid %>"
+                    const imageUrl = $("#imageUrl").attr("src")
+                    $.ajax({
+                        url:"/routes/users",
+                        type:"POST",
+                        data: {uid, userName, imageUrl},
+                    }).done(()=> {
+                        alert("환영합니다")
+                        location.href="/"
+                    }).fail((request, status, error) => {
+                        alert("다시 시도해주세요")
+                    })
+                })
+            })
+        </script>
+    </body>
+</html>

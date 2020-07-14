@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>HANSUM</title>
+        <!-- Font Awesome -->
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        />
+        <!-- Google Fonts -->
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        />
+        <!-- Bootstrap core CSS -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <!-- Material Design Bootstrap -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css"
+        />
+
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/earlyaccess/notosanskr.css"
+        />
+        <style>
+            .navbar {
+                padding: 11px 20px 11px 20px;
+                height: 60px;
+                background-color: white;
+                box-shadow: none;
+            }
+
+            a {
+                color: black;
+            }
+
+            .complete {
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 13.5px;
+                margin: 0;
+                color: #d58b71;
+            }
+
+            a:hover {
+                color: #752771;
+            }
+
+            .container {
+                padding: 0px 20px 0px 20px;
+            }
+            h6 {
+                color: black;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+                margin: 0;
+            }
+            h5 {
+                color: black;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                margin: 0;
+            }
+            h1 {
+                margin-top: 30px;
+                font-size: 26px;
+                font-family: "Noto Sans KR", sans-serif;
+                font-weight: 500;
+                line-height: 40px;
+            }
+
+            span {
+                font-weight: 600;
+                color: #d58b71;
+            }
+
+            img {
+                border-radius: 70%;
+                display: block;
+                margin: auto;
+                margin-top: 57px;
+                margin-bottom: 65px;
+                box-shadow: 0px 0px 10px #d58b71;
+            }
+
+            .md-form {
+                margin: 0px 10px 0px 10px;
+                color: #d58b71;
+                border-bottom-color: #d58b71;
+            }
+
+            .md-form > label {
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 13.5px;
+                font-weight: 300;
+                color: #777777;
+            }
+
+            .md-form input[type="text"] {
+                border-bottom-color: #d58b71;
+            }
+
+            .md-form input[type="text"]:focus {
+                box-shadow: 0 1px 0 0 #d58b71 !important;
+                color: black;
+                border-bottom: 1px solid #d58b71 !important;
+            }
+
+            .md-form
+                input[type="text"]:not(.browser-default):focus:not([readonly])
+                + label {
+                color: #752771;
+            }
+            .fas {
+                padding-right: 6.17px;
+            }
+            .btn-group {
+                width: 100%;
+            }
+            .btn {
+                margin: 0;
+                width: 50%;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                background-color: gainsboro;
+                color: white;
+                box-shadow: none;
+                font-size: 10px;
+                font-family: "Noto Sans KR", sans-serif;
+                font-weight: 500;
+            }
+            .btn:hover {
+                margin: 0;
+                width: 50%;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                background-color: gainsboro;
+                color: white;
+                box-shadow: none;
+                font-size: 10px;
+            }
+            .btn-group {
+                margin-top: 15px;
+            }
+            .btn-group > .btn:not(:first-child) {
+                margin: 0;
+            }
+            .btn-right {
+                border-top-right-radius: 50px;
+                border-bottom-right-radius: 50px;
+            }
+            .btn-left {
+                border-top-left-radius: 50px;
+                border-bottom-left-radius: 50px;
+            }
+            .btn:not([disabled]):not(.disabled).active {
+                background-color: #d58b71;
+                color: white;
+                box-shadow: none;
+            }
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                padding: 10px;
+                border: 0px;
+                width: 100%;
+                text-align-last: center;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 15px;
+                background-color: white;
+            }
+            .select-form {
+                margin-top: 15px;
+            }
+            .divider {
+                width: 100%;
+                border-bottom: 1px solid grey;
+            }
+            input[type="color"] {
+                -webkit-appearance: none;
+                border: none;
+                width: 32px;
+                height: 32px;
+                background-color: white;
+            }
+            input[type="color"]::-webkit-color-swatch-wrapper {
+                padding: 0;
+            }
+            input[type="color"]::-webkit-color-swatch {
+                border: none;
+            }
+            textarea {
+                width: 100%;
+                border: none;
+                height: 200px;
+                font-family: "Noto Sans KR", sans-serif;
+                margin-top: 20px;
+                font-size: 1 5px;
+            }
+            .complete {
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 13.5px;
+                margin: 0;
+                color: #d58b71;
+            }
+            .colorPicker {
+                border: 1px solid #999;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- JQuery -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        ></script>
+        <!-- Bootstrap tooltips -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"
+        ></script>
+        <!-- Bootstrap core JavaScript -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"
+        ></script>
+        <!-- MDB core JavaScript -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"
+        ></script>
+
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="fas fa-chevron-left fa-lg mr-auto" href="/"></a>
+            <h6>글쓰기</h6>
+            <a class="complete my-2 my-lg-0 ml-auto" href="/">완료</a>
+        </nav>
+        <div class="container">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn-left btn form-check-label active">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="options"
+                        id="option1"
+                        autocomplete="off"
+                        value="true"
+                        checked
+                    />
+                    공개
+                </label>
+                <label class="btn-right btn form-check-label">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="options"
+                        id="option2"
+                        value="false"
+                        autocomplete="off"
+                    />
+                    비공개
+                </label>
+            </div>
+            <div class="select-form">
+                <div class="d-flex justify-content-between">
+                    <select name="" id="start"> </select>
+                    <div class="align-self-center">~</div>
+                    <select name="" id="end"> </select>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="container">
+            <div
+                class="d-flex justify-content-around"
+                style="padding-top: 6px; padding-bottom: 6px;"
+            >
+                <div class="align-self-center">
+                    <h5>배경 색상</h5>
+                </div>
+                <input
+                    style="border: 0.5px solid #999;"
+                    id="colorPicker"
+                    type="color"
+                    value="#ffffff"
+                />
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="container">
+            <textarea
+                id="content"
+                cols="30"
+                placeholder="100자 이내로 입력하세요."
+            ></textarea>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io()
+
+            $(".complete").click(function (event) {
+                const start = $("#start").val()
+                const end = $("#end").val()
+                const color = $("#colorPicker").val()
+                const content = $("#content").val()
+                const radioVal = $('input[type="radio"]:checked').val()
+                const public = true
+                if (radioVal == "false") {
+                    public = false
+                }
+                console.log(start)
+                console.log(end)
+                console.log(color)
+                console.log(content)
+                console.log(public)
+
+                $.ajax({
+                    url: "/routes/posts",
+                    type: "POST",
+                    data: {
+                        time: {
+                            startTime: Number(start),
+                            finishTime: Number(end),
+                        },
+                        author: "<%=uid%>",
+                        color,
+                        content,
+                        public,
+                    },
+                    async: false,
+                })
+                    .done((response) => {
+                        console.log(response)
+                        socket.emit("post", { uid: "<%=uid%>", response })
+                        alert("글 등록 성공")
+                    })
+                    .fail(() => {
+                        alert("다시 시도해주세요")
+                    })
+            })
+
+            for (var i = 0; i <= 24; i++) {
+                $("<option>", {
+                    class: "dropdown-item",
+                    value: i,
+                    text: i + "시",
+                }).appendTo(start)
+                $("<option>", {
+                    value: i,
+                    text: i + "시",
+                }).appendTo(end)
+            }
+        </script>
+    </body>
+</html>

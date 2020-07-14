@@ -12,18 +12,46 @@ const list = (req, res) => {
 
     if (isNaN(limit)) return res.status(400).end()
 
-    PostModel.find({}, (err, posts) => {
+    let today = new Date()
+
+    let hours = today.getHours() // 시
+
+    PostModel.find(
+        {
+            "time.startTime": { $lte: hours },
+            "time.finishTime": { $gt: hours },
+            public: true,
+        },
+        null,
+        { limit }
+    )
+        .sort("-createdAt")
+        .exec((err, posts) => {
+            if (err) {
+                logger.error(err)
+                return res.status(500).send("Error")
+            }
+            res.status(200).json(posts)
+        })
+}
+
+const ranking = (req, res) => {
+    let limit = Number(req.query.limit) || 10
+
+    if (isNaN(limit)) return res.status(400).end()
+
+    PostModel.find({}, null, { limit, sort: { likes: -1 } }, (err, posts) => {
         if (err) {
             logger.error(err)
             return res.status(500).send("Error")
         }
-        res.status(200).json(posts.slice(0, limit))
+        res.status(200).json(posts)
     })
 }
 
 // 상세조회 (localhost:3000/api/posts/:id)
 const detail = (req, res) => {
-    PostModel.findOne({ id: req.params.id }, (err, post) => {
+    PostModel.findById(req.params.id, (err, post) => {
         if (err) {
             logger.error(err)
             return res.status(500).send("Error")
@@ -82,7 +110,7 @@ const update = (req, res) => {
         public,
     })
 
-    PostModel.findOneAndDelete({ id: req.params.id }, (err, post) => {
+    PostModel.findByIdAndDelete(req.params.id, (err, post) => {
         if (err) {
             logger.error(err)
             return res.status(500).send("Error")
@@ -104,8 +132,8 @@ const update = (req, res) => {
 
 // 일부 수정 (localhost:3000/api/posts/:id)
 const patch = (req, res) => {
-    PostModel.findOneAndUpdate(
-        { id: req.params.id },
+    PostModel.findByIdAndUpdate(
+        req.params.id,
         req.body,
         { runValidators: true },
         (err, raw) => {
@@ -145,7 +173,7 @@ const erase = (req, res) => {
 
 // 선택 삭제 (localhost:3000/api/posts/:id)
 const remove = (req, res) => {
-    PostModel.findOneAndRemove({ id: req.params.id }, (err, post) => {
+    PostModel.findByIdAndRemove(req.params.id, (err, post) => {
         if (err) {
             logger.error(err)
             return res.status(500).send("Error")
@@ -158,6 +186,114 @@ const remove = (req, res) => {
     })
 }
 
+// 공감 개수 조회 (localhost:3000/api/posts/likes/:id)
+const like = (req, res) => {
+    PostModel.findById(req.params.id, (err, post) => {
+        if (err) {
+            logger.error(err)
+            return res.status(500).send("Error")
+        }
+        if (!post) {
+            logger.warn("No Post")
+            return res.status(404).send("No Post")
+        }
+        res.status(200).json({ likes: post.likes.length })
+    })
+}
+
+// 공감 개수 수정 (localhost:3000/api/posts/likes/:id)
+const updateLike = (req, res) => {
+    if (!req.body.uid) {
+        logger.warn("Incorrect Input")
+        res.sendStatus(400)
+    }
+    PostModel.findById(req.params.id, (err, post) => {
+        if (err) {
+            logger.error(err)
+            return res.status(500).send("Error")
+        }
+        if (!post) {
+            logger.warn("No Post")
+            return res.status(404).send("No Post")
+        }
+
+        let chk = true
+        const likes = post.likes
+
+        likes.forEach((uid) => {
+            if (uid == req.body.uid) {
+                likes.splice(likes.indexOf(req.body.uid), 1)
+                chk = false
+            }
+        })
+
+        if (chk) {
+            likes.push(req.body.uid)
+        }
+
+        PostModel.findByIdAndUpdate(
+            req.params.id,
+            { likes: likes },
+            { runValidators: true },
+            (err, raw) => {
+                if (err) {
+                    logger.error(err)
+                    return res.sendStatus(400)
+                }
+                if (!raw) {
+                    logger.warn("No Post")
+                    return res.status(404).send("No Post")
+                }
+                PostModel.findById(req.params.id, (err, post) => {
+                    if (err) {
+                        logger.error(err)
+                        return res.status(400)
+                    }
+                    if (!post) {
+                        logger.warn("No Post")
+                        return res.status(404).send("No Post")
+                    }
+                    res.status(200).json(post)
+                })
+            }
+        )
+    })
+}
+
+// 공감 여부 확인 (localhost:3000/api/posts/like/:id)
+const isLike = (req, res) => {
+    if (!req.body.uid) {
+        logger.warn("Incorrect Input")
+        res.sendStatus(400)
+    }
+
+    PostModel.findById(req.params.id, (err, post) => {
+        if (err) {
+            logger.error(err)
+            return res.status(500).send("Error")
+        }
+        if (!post) {
+            logger.warn("No Post")
+            return res.status(404).send("No Post")
+        }
+
+        let chk = false
+        const likes = post.likes
+
+        likes.forEach((uid) => {
+            if (uid == req.body.uid) {
+                chk = true
+            }
+        })
+
+        res.status(200).json({ like: chk })
+    })
+}
+
+const writePost = (req, res) => {
+    res.render("post/write", { uid: req.user.id })
+}
+
 module.exports = {
     options,
     list,
@@ -168,4 +304,9 @@ module.exports = {
     patch,
     erase,
     remove,
+    like,
+    updateLike,
+    isLike,
+    ranking,
+    writePost,
 }

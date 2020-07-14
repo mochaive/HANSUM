@@ -1,45 +1,316 @@
 <!DOCTYPE html>
-<html lang="ko">
-    <meta name="viewport" content="width=device-width, initial-scale=1, ..." />
+<html lang="en">
+    <%- include('./header'); %>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                max-height: 100vh;
+            }
+            body > .container {
+                flex: 1;
+                overflow-y: scroll;
+            }
+            .list {
+                display: flex;
+                flex-direction: column;
+            }
+            .list-item {
+                padding: 16px 15px;
+                border-radius: 10px;
+                background-color: #fff;
+                display: flex;
+                box-shadow: 0 0 10px rgba(213, 139, 113, 0.2);
+                margin-bottom: 25px;
+            }
+            .list-item-left {
+                padding-right: 15px;
+                margin-right: 15px;
+                border-right: 1px solid #999;
+                display: flex;
+                flex-direction: column;
+            }
+            .list-item-profile {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-size: contain;
+                border: 1px solid #999;
+            }
+            .list-item-like {
+                margin-top: 5px;
+                text-align: center;
+                font-size: 12px;
+                color: #D58B71;
+            }
+            .list-item-content {
+                flex: 1;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+            }
+            .tab-content {
+                display: none;
+                position: relative;
+            }
+            .tab-content.visible {
+                display: block;
+            }
+            .topnotice{
+                width: 100%;
+                height: 25px;
+                line-height: 25px;
+                font-family: "Noto Sans KR", sans-serif;
+                font-weight: 300;
+                font-size: 10px;
+                color: #fff;
+                background-color: #d58b71;
+                text-align: center;
+                position: fixed;
+                left: 0;
+                top: 50px;
+                right:0;
+            }
+            .my-info {
+                display: flex;
+                flex-direction: column;
+                padding: 5px 15px;
+                padding-bottom: 40px;
+            }
+            .my-info-profile {
+                margin-right: 25px;
+                width: 75px;
+                height: 75px;
+                background-size: contain;
+                border-radius: 50%;
+                border: 1px solid #999;
+            }
+            .my-info-name {
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .my-info-email {
+                font-family: "Noto Sans KR", sans-serif;
+                color: #999;
+                font-size: 12px;
+            }
+            .my-info-likes, .my-info-best {
+                font-size: 14px; 
+            }
+            .my-info-likes>span, .my-info-best>span{
+                font-size: 14px;
+                color: #d58b71;
+                font-family: "Noto Sans KR", sans-serif;
+                font-weight: 300;
+            }
+            .my-info-likes>span::after{
+                content: '개';
+            }
+            .my-info-best>span::after{
+                content: '번';
+            }
+            .my-info-likes {
+                margin-top: 15px;
+            }
+            .my-info-best {
+                margin-top: 3px;
+            }
+            .my-info-statics {
+                display: flex;
+                flex-direction: column;
+                margin-top: 20px;
+            }
+            .my-info-col {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .my-info-row {
+                display: flex;
+                flex-direction: row;
+            }
+            .container {
+                margin-top: 25px;
+            }
+            .ranking-list {
+                margin-top: 25px;
+            }
+            .setting-button {
+                padding: 15px 5px;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            .setting-button:active {
+                color: #e0e0e0;
+            }
+            .hr {
+                margin: 0 -15px;
+                height: 1px;
+                background-color: #999;
+            }
+        </style>
+    </head>
     <body>
-        <!--Navbar-->
-        <!--/.Navbar-->
-        <!-- Jumbotron -->
-        <div class="jumbotron text-center">
-            <!-- Title -->
-            <h4 class="card-title h4 pb-2"><strong>My adventure</strong></h4>
-
-            <!-- Card image -->
-            <div class="view overlay my-4">
-                <img
-                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
-                    class="img-fluid"
-                    alt="margin:auto"
-                />
-                <a href="#">
-                    <div class="mask rgba-white-slight"></div>
-                </a>
+        <%- include('./menu'); %>
+        <div class="container tabs">
+            <div class="tab-content visible" tab="home" title="HANSUM">
+                <div class="list post-list">
+                    <div class="list-item">
+                        <div class="list-item-left">
+                            <div class="list-item-profile" style="background-image:url(https://lh3.googleusercontent.com/proxy/-vsdZkJoq0c6xwOX-fRg_L1ypE1ZIu93yxuOs8zdnZmJ6STLSTS6g1bXFaZLDegiIV2GENT7JdTp7w1RIa6TKxIynbxfdVPs67GQq949idiFVvfY2v1Epqj0AfFobyV2vJNcs_axqrYAlSQPyMzLZDugM-lFSw);">
+                            </div>
+                            <div class="list-item-like">
+                                <i class="fas fa-star"></i>
+                                <!-- <i class="far fa-star"></i> -->
+                            </div>
+                        </div>
+                        <div class="list-item-content">동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라 만세</div>
+                    </div>
+                </div>
             </div>
-
-            <h5 class="indigo-text h5 mb-4">Photography</h5>
-
-            <p class="card-text">
-                Sed ut perspiciatis unde omnis iste natus sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam.
-            </p>
-
-            <!-- Linkedin -->
-            <a class="fa-lg p-2 m-2 li-ic"
-                ><i class="fab fa-linkedin-in grey-text"></i
-            ></a>
-            <!-- Twitter -->
-            <a class="fa-lg p-2 m-2 tw-ic"
-                ><i class="fab fa-twitter grey-text"></i
-            ></a>
-            <!-- Dribbble -->
-            <a class="fa-lg p-2 m-2 fb-ic"
-                ><i class="fab fa-facebook-f grey-text"></i
-            ></a>
+            <div class="tab-content" tab="ranking" title="랭킹">
+                <div class="topnotice">위에서부터 차례대로 랭킹입니다.</div>
+                <div class="list ranking-list"></div>
+            </div>
+            <div class="tab-content" tab="setting" title="마이페이지">
+                <div class="my-info">
+                    <div class="my-info-row">
+                        <img class="my-info-profile" id="infoProfile" src="https://p7.hiclipart.com/preview/355/848/997/computer-icons-user-profile-google-account-photos-icon-account.jpg"/>
+                        <div class="my-info-col">
+                            <div class="my-info-name" id="userName"> </div>
+                        </div>
+                    </div>
+                    <div class="my-info-statics">
+                        <div class="my-info-likes" >누적 공감 수  <span id="likes"> </span></div>
+                        <div class="my-info-best" >베스트 한숨  <span id="best"> </span></div>
+                    </div>
+                </div>
+                <div class="hr"></div>
+                <div class="setting-button" onclick="location.href='/routes/users/edit';">프로필 수정</div>
+                <div class="hr"></div>
+                <div class="setting-button" onclick="location.href='/routes/auth/logout';">로그아웃</div>
+                <div class="hr"></div>
+                <div class="list mypost-list"></div>
+            </div>
         </div>
+        <%- include('./bottomnav'); %>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            $(function () {
+
+                const socket = io()
+
+                socket.on("post", (data) => {
+                    console.log(data)
+                    $.ajax({
+                            url:`/routes/users/${data.from.uid}`,
+                            type:"GET",
+                            async: false
+                        }).done((userResponse) => {
+                            console.log(userResponse)
+                            const obj = $('<div>').attr('id', data.msg._id).addClass('list-item').append(
+                                $('<div>').addClass('list-item-left').append(
+                                    $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
+                                ).append(
+                                    $('<div>').addClass('list-item-like').append('<i class="fa'+(data.msg.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>').click(function(){
+                                        $.ajax({
+                                            url:`routes/posts/likes/${$(this).parent().parent().attr('id')}`,
+                                            type:"POST",
+                                            data: {"uid": "<%=uid%>"},
+                                            async: false,
+                                        }).done((postResponse) => {
+                                            console.log("onClick")
+                                            $(this).html('<i class="fa'+(postResponse.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>')
+                                            
+                                        }).fail((request, status, error) => {
+                                            console.log("fail")
+                                        }
+                                        )
+                                    })
+                                )
+                            ).append($('<div>').addClass('list-item-content').text(data.msg.content));
+                            $('.post-list').prepend(obj);
+                        })
+                })
+
+                $.ajax({
+                    url:"/routes/posts",
+                    type:"GET"
+                }).done((response)=>{
+                    $('.post-list').empty();
+                    for(item of response) {
+                        console.log(item)
+                        $.ajax({
+                            url:`/routes/users/${item.author}`,
+                            type:"GET",
+                            async: false
+                        }).done((userResponse) => {
+                            console.log(userResponse)
+                            const obj = $('<div>').attr('id', item._id).addClass('list-item').append(
+                                $('<div>').addClass('list-item-left').append(
+                                    $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
+                                ).append(
+                                    $('<div>').addClass('list-item-like').append('<i class="fa'+(item.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>').click(function(){
+                                        $.ajax({
+                                            url:`routes/posts/likes/${$(this).parent().parent().attr('id')}`,
+                                            type:"POST",
+                                            data: {"uid": "<%=uid%>"},
+                                            async: false,
+                                        }).done((postResponse) => {
+                                            console.log("onClick")
+                                            $(this).html('<i class="fa'+(postResponse.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>')
+                                            
+                                        }).fail((request, status, error) => {
+                                            console.log("fail")
+                                        }
+                                        )
+                                    })
+                                )
+                            ).append($('<div>').addClass('list-item-content').text(item.content));
+                            $('.post-list').append(obj);
+                        })  
+                    }
+                })
+                $.ajax({
+                    url:"/routes/posts/ranking",
+                    type:"GET"
+                }).done((response)=>{
+                    console.log(response);
+                    $('.ranking-list').empty();
+                    for(item of response) {
+                        $.ajax({
+                            url:`/routes/users/${item.author}`,
+                            type:"GET",
+                            async: false
+                        }).done((userResponse) => {
+                            const obj = $('<div>').addClass('list-item').append(
+                            $('<div>').addClass('list-item-left').append(
+                                $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
+                            ).append(
+                                $('<div>').addClass('list-item-like').append('<i class="fas fa-star"></i>')
+                            )
+                        ).append($('<div>').addClass('list-item-content').text(item.content));
+                        $('.ranking-list').append(obj);
+                        })
+                    }
+                })
+                $.ajax({
+                    url:"/routes/users/<%= uid %>",
+                    type: "GET"
+                }).done((response) => {
+                    $("#userName").text(response.userName)
+                    $("#likes").text(response.likes)
+                    $("#best").text(response.best)
+                    console.log(response.imageUrl)
+                    $("#infoProfile").attr("src", response.imageUrl)
+
+                })
+            })
+        </script>
     </body>
 </html>
