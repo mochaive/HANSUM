@@ -52,6 +52,8 @@ const authenticateUser = async (req, res, next) => {
     }
 }
 
+// Register 따로 처리
+
 const login = (req, res, next) => {
     res.render("login")
 }
@@ -68,7 +70,7 @@ const loginGoogleCallback = passport.authenticate("google", {
 const logout = (req, res) => {
     req.session = null
     req.logout()
-    res.redirect("/")
+    res.redirect("/routes/auth")
 }
 
 const register = (req, res) => {
