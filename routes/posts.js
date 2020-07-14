@@ -6,6 +6,7 @@ const controller = require("../controller/posts")
 
 // REST API
 router.options("/", controller.options)
+router.get("/ranking", controller.ranking)
 router.get("/", controller.list) // 목록조회
 router.get("/:id", controller.detail) // 상세조회
 router.post("/", controller.create) // 등록

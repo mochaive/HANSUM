@@ -12,12 +12,25 @@ const list = (req, res) => {
 
     if (isNaN(limit)) return res.status(400).end()
 
-    PostModel.find({}, (err, posts) => {
+    PostModel.find({}, null, { limit }, (err, posts) => {
         if (err) {
             logger.error(err)
             return res.status(500).send("Error")
         }
-        res.status(200).json(posts.slice(0, limit))
+        res.status(200).json(posts)
+    })
+}
+const ranking = (req, res) => {
+    let limit = Number(req.query.limit) || 10
+
+    if (isNaN(limit)) return res.status(400).end()
+
+    PostModel.find({}, null, { limit, sort: { likes: -1 } }, (err, posts) => {
+        if (err) {
+            logger.error(err)
+            return res.status(500).send("Error")
+        }
+        res.status(200).json(posts)
     })
 }
 
@@ -275,4 +288,5 @@ module.exports = {
     like,
     updateLike,
     isLike,
+    ranking,
 }
