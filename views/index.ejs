@@ -180,7 +180,7 @@
             <div class="tab-content" tab="setting" title="마이페이지">
                 <div class="my-info">
                     <div class="my-info-row">
-                        <div class="my-info-profile" id="myInfoProfile" style="background-image:url(https://lh3.googleusercontent.com/proxy/-vsdZkJoq0c6xwOX-fRg_L1ypE1ZIu93yxuOs8zdnZmJ6STLSTS6g1bXFaZLDegiIV2GENT7JdTp7w1RIa6TKxIynbxfdVPs67GQq949idiFVvfY2v1Epqj0AfFobyV2vJNcs_axqrYAlSQPyMzLZDugM-lFSw)"></div>
+                        <img class="my-info-profile" id="infoProfile" src="https://p7.hiclipart.com/preview/355/848/997/computer-icons-user-profile-google-account-photos-icon-account.jpg"/>
                         <div class="my-info-col">
                             <div class="my-info-name" id="userName"> </div>
                         </div>
@@ -205,27 +205,39 @@
                     url:"/routes/posts",
                     type:"GET"
                 }).done((response)=>{
-                    // console.log(response);
                     $('.post-list').empty();
                     for(item of response) {
                         console.log(item)
                         $.ajax({
                             url:`/routes/users/${item.author}`,
-                            type:"GET"
+                            type:"GET",
+                            async: false
                         }).done((userResponse) => {
-                            const obj = $('<div>').addClass('list-item').append(
+                            console.log(userResponse)
+                            const obj = $('<div>').attr('id', item._id).addClass('list-item').append(
                             $('<div>').addClass('list-item-left').append(
                                 $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
                             ).append(
-                                $('<div>').addClass('list-item-like').append('<i class="fas fa-star"></i>')
+                                $('<div>').addClass('list-item-like').append('<i class="fa'+(item.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>').click(function(){
+                                    $.ajax({
+                                        url:`routes/posts/likes/${$(this).parent().parent().attr('id')}`,
+                                        type:"POST",
+                                        data: {"uid": "<%=uid%>"},
+                                        async: false,
+                                    }).done((postResponse) => {
+                                        console.log("onClick")
+                                        $(this).html('<i class="fa'+(postResponse.likes.includes('<%=uid%>')?'s':'r')+' fa-star"></i>')
+                                        
+                                    }).fail((request, status, error) => {
+                                        console.log("fail")
+                                    }
+                                    )
+                                })
                             )
                         ).append($('<div>').addClass('list-item-content').text(item.content));
                         $('.post-list').append(obj);
-                        })
-                        
+                        })  
                     }
-
-
                 })
                 $.ajax({
                     url:"/routes/posts/ranking",
@@ -234,42 +246,32 @@
                     console.log(response);
                     $('.ranking-list').empty();
                     for(item of response) {
-                        const obj = $('<div>').addClass('list-item').append(
+                        $.ajax({
+                            url:`/routes/users/${item.author}`,
+                            type:"GET",
+                            async: false
+                        }).done((userResponse) => {
+                            const obj = $('<div>').addClass('list-item').append(
                             $('<div>').addClass('list-item-left').append(
-                                $('<div>').addClass('list-item-profile').css('background-image', 'url()')
+                                $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
                             ).append(
                                 $('<div>').addClass('list-item-like').append('<i class="fas fa-star"></i>')
                             )
                         ).append($('<div>').addClass('list-item-content').text(item.content));
                         $('.ranking-list').append(obj);
+                        })
                     }
                 })
                 $.ajax({
                     url:"/routes/users/<%= uid %>",
                     type: "GET"
                 }).done((response) => {
-                    console.log(response)
                     $("#userName").text(response.userName)
                     $("#likes").text(response.likes)
                     $("#best").text(response.best)
-                    $("#myInfoProfile").attr("src", response.imageUrl)
+                    console.log(response.imageUrl)
+                    $("#infoProfile").attr("src", response.imageUrl)
 
-                })
-                $(".complete").click((event) => {
-                    event.preventDefault()
-                    const userName = $("#userName").val()
-                    const uid = "<%= uid %>"
-                    const imageUrl = $("#imageUrl").attr("src")
-                    $.ajax({
-                        url:"/routes/users/<%= uid %>",
-                        type:"PATCH",
-                        data: {userName, imageUrl},
-                    }).done(()=> {
-                        alert("변경했습니다")
-                        location.href="/"
-                    }).fail((request, status, error) => {
-                        alert("다시 시도해주세요")
-                    })
                 })
             })
         </script>
