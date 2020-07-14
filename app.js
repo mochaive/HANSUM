@@ -6,12 +6,13 @@ const mongoose = require("mongoose")
 const path = require("path")
 const session = require("express-session")
 const passport = require("passport")
+const app = express()
+const server = require("http").createServer(app)
+const io = require("socket.io")(server)
 require("dotenv").config()
 
 const router = require("./routes")
 const auth = require("./controller/auth")
-
-const app = express()
 
 // mongoDB connect
 mongoose.connect("mongodb://localhost/hansum", {
@@ -41,6 +42,43 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
+// socket.io
+io.on("connection", (socket) => {
+    let uid
+
+    socket.on("post", (data) => {
+        console.log("Message from %s", data.uid)
+        console.log("data:", data.response)
+
+        uid = data.uid
+
+        let today = new Date()
+        let hours = today.getHours() // 시
+
+        if (
+            data.response.time.startTime <= hours &&
+            data.response.time.finishTime > hours
+        ) {
+            const msg = {
+                from: {
+                    uid: data.uid,
+                },
+                msg: data.response,
+            }
+
+            io.emit("post", msg)
+        }
+    })
+
+    socket.on("forceDisconnect", () => {
+        socket.disconnect()
+    })
+
+    socket.on("disconnect", () => {
+        console.log("user disconnected: " + uid)
+    })
+})
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
@@ -52,7 +90,7 @@ app.get("/", auth.authenticateUser, (req, res, next) => {
     res.render("index", { uid: req.user.id })
 })
 
-app.listen(process.env.PORT || 3000, () => console.log("Server running"))
+server.listen(process.env.PORT || 3000, () => console.log("Server running"))
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
