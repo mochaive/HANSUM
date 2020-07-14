@@ -1,0 +1,50 @@
+<div class="bottomnav">
+    <div class="bottomnav-item selected" target="home">
+        <i class="fas fa-home"></i>
+    </div>
+    <div class="bottomnav-item" target="ranking">
+        <i class="fas fa-chart-line"></i>
+    </div>
+    <div class="bottomnav-item" target="setting">
+        <i class="fas fa-cog"></i>
+    </div>
+</div>
+<style>
+    .bottomnav {
+        height: 60px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        display: flex;
+    }
+    .bottomnav-item {
+        color: #999;
+        font-size: 24px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .bottomnav-item.selected {
+        color: #d58b71;
+    }
+</style>
+<script>
+    $(".bottomnav-item").click(function (evt) {
+        $(".bottomnav-item").removeClass("selected")
+        $(this).addClass("selected")
+        const target = $(this).attr("target")
+        const targetTab = $(".tab-content[tab=" + target + "]")
+        $(".tab-content").removeClass("visible")
+        targetTab.addClass("visible")
+        $(".tab-title").text(targetTab.attr("title"))
+        location.hash = "#" + target
+    })
+    $(() => {
+        if (
+            location.hash &&
+            $(".bottomnav-item[target=" + location.hash.slice(1) + "]").length >
+                0
+        )
+            $(".bottomnav-item[target=" + location.hash.slice(1) + "]").click()
+    })
+</script>

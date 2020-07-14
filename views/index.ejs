@@ -1,17 +1,275 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
     <%- include('./header'); %>
-
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                max-height: 100vh;
+            }
+            body > .container {
+                flex: 1;
+                overflow-y: scroll;
+            }
+            .list {
+                display: flex;
+                flex-direction: column;
+            }
+            .list-item {
+                padding: 16px 15px;
+                border-radius: 10px;
+                background-color: #fff;
+                display: flex;
+                box-shadow: 0 0 10px rgba(213, 139, 113, 0.2);
+                margin-bottom: 25px;
+            }
+            .list-item-left {
+                padding-right: 15px;
+                margin-right: 15px;
+                border-right: 1px solid #999;
+                display: flex;
+                flex-direction: column;
+            }
+            .list-item-profile {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-size: contain;
+                border: 1px solid #999;
+            }
+            .list-item-like {
+                margin-top: 5px;
+                text-align: center;
+                font-size: 12px;
+                color: #D58B71;
+            }
+            .list-item-content {
+                flex: 1;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+            }
+            .tab-content {
+                display: none;
+                position: relative;
+            }
+            .tab-content.visible {
+                display: block;
+            }
+            .topnotice{
+                width: 100%;
+                height: 25px;
+                line-height: 25px;
+                font-family: "Noto Sans KR", sans-serif;
+                font-weight: 300;
+                font-size: 10px;
+                color: #fff;
+                background-color: #d58b71;
+                text-align: center;
+                position: fixed;
+                left: 0;
+                top: 50px;
+                right:0;
+            }
+            .my-info {
+                display: flex;
+                flex-direction: column;
+                padding: 5px 15px;
+                padding-bottom: 40px;
+            }
+            .my-info-profile {
+                margin-right: 25px;
+                width: 75px;
+                height: 75px;
+                background-size: contain;
+                border-radius: 50%;
+                border: 1px solid #999;
+            }
+            .my-info-name {
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .my-info-email {
+                font-family: "Noto Sans KR", sans-serif;
+                color: #999;
+                font-size: 12px;
+            }
+            .my-info-likes, .my-info-best {
+                font-size: 14px; 
+            }
+            .my-info-likes>span, .my-info-best>span{
+                font-size: 14px;
+                color: #d58b71;
+                font-family: "Noto Sans KR", sans-serif;
+                font-weight: 300;
+            }
+            .my-info-likes>span::after{
+                content: '개';
+            }
+            .my-info-best>span::after{
+                content: '번';
+            }
+            .my-info-likes {
+                margin-top: 15px;
+            }
+            .my-info-best {
+                margin-top: 3px;
+            }
+            .my-info-statics {
+                display: flex;
+                flex-direction: column;
+                margin-top: 20px;
+            }
+            .my-info-col {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .my-info-row {
+                display: flex;
+                flex-direction: row;
+            }
+            .container {
+                margin-top: 25px;
+            }
+            .ranking-list {
+                margin-top: 25px;
+            }
+            .setting-button {
+                padding: 15px 5px;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            .setting-button:active {
+                color: #e0e0e0;
+            }
+            .hr {
+                margin: 0 -15px;
+                height: 1px;
+                background-color: #999;
+            }
+        </style>
+    </head>
     <body>
         <%- include('./menu'); %>
-        <a class="text" id="userName">hello</a>
+        <div class="container tabs">
+            <div class="tab-content visible" tab="home" title="HANSUM">
+                <div class="list post-list">
+                    <div class="list-item">
+                        <div class="list-item-left">
+                            <div class="list-item-profile" style="background-image:url(https://lh3.googleusercontent.com/proxy/-vsdZkJoq0c6xwOX-fRg_L1ypE1ZIu93yxuOs8zdnZmJ6STLSTS6g1bXFaZLDegiIV2GENT7JdTp7w1RIa6TKxIynbxfdVPs67GQq949idiFVvfY2v1Epqj0AfFobyV2vJNcs_axqrYAlSQPyMzLZDugM-lFSw);">
+                            </div>
+                            <div class="list-item-like">
+                                <i class="fas fa-star"></i>
+                                <!-- <i class="far fa-star"></i> -->
+                            </div>
+                        </div>
+                        <div class="list-item-content">동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라 만세</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" tab="ranking" title="랭킹">
+                <div class="topnotice">위에서부터 차례대로 랭킹입니다.</div>
+                <div class="list ranking-list"></div>
+            </div>
+            <div class="tab-content" tab="setting" title="마이페이지">
+                <div class="my-info">
+                    <div class="my-info-row">
+                        <div class="my-info-profile" id="myInfoProfile" style="background-image:url(https://lh3.googleusercontent.com/proxy/-vsdZkJoq0c6xwOX-fRg_L1ypE1ZIu93yxuOs8zdnZmJ6STLSTS6g1bXFaZLDegiIV2GENT7JdTp7w1RIa6TKxIynbxfdVPs67GQq949idiFVvfY2v1Epqj0AfFobyV2vJNcs_axqrYAlSQPyMzLZDugM-lFSw)"></div>
+                        <div class="my-info-col">
+                            <div class="my-info-name" id="userName"> </div>
+                        </div>
+                    </div>
+                    <div class="my-info-statics">
+                        <div class="my-info-likes" >누적 공감 수  <span id="likes"> </span></div>
+                        <div class="my-info-best" >베스트 한숨  <span id="best"> </span></div>
+                    </div>
+                </div>
+                <div class="hr"></div>
+                <div class="setting-button" onclick="location.href='/routes/users/edit';">프로필 수정</div>
+                <div class="hr"></div>
+                <div class="setting-button" onclick="location.href='/routes/auth/logout';">로그아웃</div>
+                <div class="hr"></div>
+                <div class="list mypost-list"></div>
+            </div>
+        </div>
+        <%- include('./bottomnav'); %>
         <script>
             $(function () {
                 $.ajax({
-                    url: "/routes/users/<%= uid %>",
-                    type: "GET",
+                    url:"/routes/posts",
+                    type:"GET"
+                }).done((response)=>{
+                    // console.log(response);
+                    $('.post-list').empty();
+                    for(item of response) {
+                        console.log(item)
+                        $.ajax({
+                            url:`/routes/users/${item.author}`,
+                            type:"GET"
+                        }).done((userResponse) => {
+                            const obj = $('<div>').addClass('list-item').append(
+                            $('<div>').addClass('list-item-left').append(
+                                $('<div>').addClass('list-item-profile').css('background-image', `url(${userResponse.imageUrl})`)
+                            ).append(
+                                $('<div>').addClass('list-item-like').append('<i class="fas fa-star"></i>')
+                            )
+                        ).append($('<div>').addClass('list-item-content').text(item.content));
+                        $('.post-list').append(obj);
+                        })
+                        
+                    }
+
+
+                })
+                $.ajax({
+                    url:"/routes/posts/ranking",
+                    type:"GET"
+                }).done((response)=>{
+                    console.log(response);
+                    $('.ranking-list').empty();
+                    for(item of response) {
+                        const obj = $('<div>').addClass('list-item').append(
+                            $('<div>').addClass('list-item-left').append(
+                                $('<div>').addClass('list-item-profile').css('background-image', 'url()')
+                            ).append(
+                                $('<div>').addClass('list-item-like').append('<i class="fas fa-star"></i>')
+                            )
+                        ).append($('<div>').addClass('list-item-content').text(item.content));
+                        $('.ranking-list').append(obj);
+                    }
+                })
+                $.ajax({
+                    url:"/routes/users/<%= uid %>",
+                    type: "GET"
                 }).done((response) => {
+                    console.log(response)
                     $("#userName").text(response.userName)
+                    $("#likes").text(response.likes)
+                    $("#best").text(response.best)
+                    $("#myInfoProfile").attr("src", response.imageUrl)
+
+                })
+                $(".complete").click((event) => {
+                    event.preventDefault()
+                    const userName = $("#userName").val()
+                    const uid = "<%= uid %>"
+                    const imageUrl = $("#imageUrl").attr("src")
+                    $.ajax({
+                        url:"/routes/users/<%= uid %>",
+                        type:"PATCH",
+                        data: {userName, imageUrl},
+                    }).done(()=> {
+                        alert("변경했습니다")
+                        location.href="/"
+                    }).fail((request, status, error) => {
+                        alert("다시 시도해주세요")
+                    })
                 })
             })
         </script>
